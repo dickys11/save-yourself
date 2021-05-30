@@ -29,11 +29,7 @@ def getstatus(username: str, num_page: int, api=Depends(getAPI)):
                 username, page=page, tweet_mode="extended")
             tweet_list += functions.makeList(user_timeline)
         except tweepy.TweepError as e:
-            if e.api_code == 34:
-                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
-                                    detail=e.response)
-            else:
-                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
+            raise HTTPException(status_code=e.response.status_code)
 
     results = {
         'username': username,
