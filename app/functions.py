@@ -1,15 +1,21 @@
 import re
 import emoji
 import config
+import tensorflow as tf
+
+model = config.MODEL
 
 def makeList(user_timeline):
     tweet_list = []
     tweet_dict  = {}
     for tweet in user_timeline:
-        if filterTweet(tweet._json['full_text']):
-            tweet_dict['text'] = cleanTweet(tweet._json['full_text'])
+        text = tweet._json['full_text']
+        if filterTweet(text):
+            clean_text = cleanTweet(tweet._json['full_text'])
+            tweet_dict['text'] = clean_text
             tweet_dict['created_at'] = tweet._json['created_at']
             tweet_dict['id'] = tweet._json['id_str']
+            tweet_dict['prediction'] = predict(clean_text)
             tweet_dict_copy = tweet_dict.copy()
             tweet_list.append(tweet_dict_copy)
 
@@ -30,3 +36,7 @@ def filterTweet(tweet):
     for keyword in config.KEYWORDS:
         if keyword in tweet:
             return True
+
+def predict(tweet):
+    prediction = model.predict([tweet])
+    return prediction[0][0]
