@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, HTTPException
+from fastapi import FastAPI, Depends, HTTPException, status
 from pydantic import BaseModel
 
 import config
@@ -28,11 +28,12 @@ def getstatus(username: str, num_page: int, api=Depends(getAPI)):
             user_timeline = api.user_timeline(
                 username, page=page, tweet_mode="extended")
             tweet_list += functions.makeList(user_timeline)
-        except tweepy.error.TweepError as e:
-            if e['code'] == 34:
-                raise HTTPException(status_code='404', detail=f'{e["message"]}')
-            elif e == 'Not authorized.':
-                raise HTTPException(status_code='403', detail=f'{e["Account is private"]}')
+        except tweepy.TweepError as e:
+            if e.api_code == 34:
+                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,
+                                    detail=e.response)
+            else:
+                raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST)
 
     results = {
         'username': username,
