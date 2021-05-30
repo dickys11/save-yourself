@@ -9,7 +9,7 @@ def makeList(user_timeline):
         if filterTweet(tweet._json['full_text']):
             tweet_dict['text'] = cleanTweet(tweet._json['full_text'])
             tweet_dict['created_at'] = tweet._json['created_at']
-            tweet_dict['id'] = tweet._json['id']
+            tweet_dict['id'] = tweet._json['id_str']
             tweet_dict_copy = tweet_dict.copy()
             tweet_list.append(tweet_dict_copy)
 
