@@ -5,6 +5,7 @@ import config
 import schemas
 import functions
 import json
+import tweepy
 
 
 def getAPI():
@@ -19,14 +20,20 @@ app = FastAPI()
 
 
 @app.get('/getstatus/{username}/{num_page}', response_model=schemas.Tweet)
-def getstatus(username: str, num_page: int, api = Depends(getAPI)):
+def getstatus(username: str, num_page: int, api=Depends(getAPI)):
     tweet_list = []
 
-
     for page in range(num_page):
-        user_timeline = api.user_timeline(username, page=page, tweet_mode="extended")
-        tweet_list += functions.makeList(user_timeline)
-    
+        try:
+            user_timeline = api.user_timeline(
+                username, page=page, tweet_mode="extended")
+            tweet_list += functions.makeList(user_timeline)
+        except tweepy.error.TweepError as e:
+            if e['code'] == 34:
+                raise HTTPException(status_code='404', detail=f'{e["message"]}')
+            elif e == 'Not authorized.':
+                raise HTTPException(status_code='403', detail=f'{e["Account is private"]}')
+
     results = {
         'username': username,
         'tweet': tweet_list
