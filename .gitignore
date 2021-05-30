@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+app/run.ps1
+app/test.py
+app/.vscode/settings.json
+app/model/sys_model.zip
