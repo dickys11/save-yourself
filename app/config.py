@@ -1,5 +1,6 @@
 import tweepy
 import os
+import tensorflow as tf
 
 def createAPI():
     CONSUMER_KEY = os.environ['CONSUMER_KEY']
@@ -20,3 +21,4 @@ def createAPI():
     return api
 
 KEYWORDS = ['sedih', 'marah', 'depresi', 'menyedihkan', 'kesepian', 'sengsara', 'sakit', 'aku', 'diriku', 'selalu']
+MODEL = tf.keras.models.load_model('model/sys_model')
