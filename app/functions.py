@@ -3,7 +3,6 @@ import emoji
 import config
 import tensorflow as tf
 
-model = config.MODEL
 
 def makeList(user_timeline):
     tweet_list = []
@@ -12,10 +11,11 @@ def makeList(user_timeline):
         text = tweet._json['full_text']
         if filterTweet(text):
             clean_text = cleanTweet(tweet._json['full_text'])
+            print(f'[+] {clean_text}')
             tweet_dict['text'] = clean_text
             tweet_dict['created_at'] = tweet._json['created_at']
             tweet_dict['id'] = tweet._json['id_str']
-            tweet_dict['prediction'] = predict(clean_text)
+            tweet_dict['prediction'] = predict(clean_text).astype(float)
             tweet_dict_copy = tweet_dict.copy()
             tweet_list.append(tweet_dict_copy)
 
@@ -38,5 +38,6 @@ def filterTweet(tweet):
             return True
 
 def predict(tweet):
-    prediction = model.predict([tweet])
+    prediction = config.MODEL.predict([tweet])
+    # prediction = tweet.decode("utf-8")
     return prediction[0][0]
