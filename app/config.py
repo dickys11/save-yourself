@@ -18,3 +18,5 @@ def createAPI():
         raise e
     print("[+] API Created")
     return api
+
+KEYWORDS = ['sedih', 'marah', 'depresi', 'menyedihkan', 'kesepian', 'sengsara', 'sakit', 'aku', 'diriku', 'selalu']
