@@ -1,15 +1,17 @@
 import re
 import emoji
+import config
 
 def makeList(user_timeline):
     tweet_list = []
     tweet_dict  = {}
     for tweet in user_timeline:
-        tweet_dict['text'] = cleanTweet(tweet._json['full_text'])
-        tweet_dict['created_at'] = tweet._json['created_at']
-        tweet_dict['id'] = tweet._json['id']
-        tweet_dict_copy = tweet_dict.copy()
-        tweet_list.append(tweet_dict_copy)
+        if filterTweet(tweet._json['full_text']):
+            tweet_dict['text'] = cleanTweet(tweet._json['full_text'])
+            tweet_dict['created_at'] = tweet._json['created_at']
+            tweet_dict['id'] = tweet._json['id']
+            tweet_dict_copy = tweet_dict.copy()
+            tweet_list.append(tweet_dict_copy)
 
     return tweet_list
 
@@ -23,3 +25,8 @@ def cleanTweet(tweet):
     tweet = tweet.lower() #Lowercase
 
     return tweet
+
+def filterTweet(tweet):
+    for keyword in config.KEYWORDS:
+        if keyword in tweet:
+            return True
