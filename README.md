@@ -92,4 +92,68 @@ To run this app in your machine, make sure you have Python installed and Twitter
         sudo systemctl status your-service.service
         ```
 ## Usage
-## Authors
+If you deploy the app on your own, simply change the ip address to match yours.
+
+### Make predictions
+Return json data containing the username, and list of the tweets with it predictions
+
+- URL
+
+    34.87.19.67:8888/getstatus/username/num_page
+- Method
+    
+    `GET`
+- URL Params
+
+    Required:
+    
+    `username=[string]` - Specifies the username of the user
+
+    `num_page=[integer]` - Specifies the number of page that will be retrieve. One page contains 20 tweets
+
+- Data Params
+    
+    None
+
+- Success Respones:
+
+    - Code: 200
+    
+        Content: 
+        ```
+        {
+        "username": "username",
+        "tweet": [
+            {
+            "text": "some tweet",
+            "created_at": "Mon May 31 00:00:00 +0000 2021",
+            "id": "1399353302828012134",
+            "prediction": 0.9984841346740723
+            }
+        ]}
+        ```
+
+- Error Response
+
+    - Code: 401 Unauthorized
+        
+        Content: `{"detail": "Unauthorized"}`
+    
+        OR
+    - Code: 404 Not Found
+
+        Content: `{"detail": "Not Found"}`
+
+- Sample Call
+    ```sh
+    curl -X 'GET' \
+    'http://34.87.19.67:8888/getstatus/cuekinajaterus/1' \
+    -H 'accept: application/json'
+    ```
+
+## Configurations
+This API will filter the tweets based on a keyword. The default keywords are:
+```
+sedih, marah, depresi, menyedihkan, kesepian, sengsara, sakit, aku, diriku, selalusedih, marah, depresi, menyedihkan, kesepian, sengsara, sakit, aku, diriku, selalu
+```
+if you deploy the app on your own, you can modify the keywords in `config.py` file.
