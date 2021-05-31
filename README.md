@@ -2,7 +2,9 @@
 Save yourself is an app that will help you to analyze someone's tweets has a depression indication or not. This repository consists of the application API. To use this API you can deploy the API by yourself (see [installation](##installation)) or use our existing API.
 
 ## How it works
-To get someone's tweet's we use Tweepy, a Twitter API library for python. Then the tweet will be preprocessed to get a clean text. After that, a Tensorflow RNN model will predict the tweet. The result is a prediction between 0 and 1. 0 means it has depression indication and, 1 has no depression indication. This model trained using data from [this](https://github.com/andrebudiman/DatasetIndikasiDepresi) repository. The data consists of 10082 tweets in Bahasa Indonesian and has been annotated with a psychologist. 
+To get someone's tweet's we use Tweepy, a Twitter API library for python. Then the tweet will be preprocessed to get a clean text. After that, a Tensorflow RNN model will predict the tweet. The result is a prediction between 0 and 1. 0 means it has depression indication and, 1 has no depression indication. This model trained using data from [this](https://github.com/andrebudiman/DatasetIndikasiDepresi) repository. The data consists of 10082 tweets in Bahasa Indonesian and has been annotated with a psychologist. The model itself has an accuracy of 0.9177 in the test set.
+![model_summary](img/model_summary.png)
+![graphh](img/graph.png)
 
 ## Installation
 To run this app in your machine, make sure you have Python installed and Twitter developer account.
