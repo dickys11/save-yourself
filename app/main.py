@@ -37,3 +37,9 @@ def getstatus(username: str, num_page: int, api=Depends(getAPI)):
     }
 
     return results
+
+@app.get('/keywords')
+def getkeywords():
+    result = {'keywords': config.KEYWORDS}
+
+    return result
