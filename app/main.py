@@ -20,14 +20,14 @@ app = FastAPI()
 
 
 @app.get('/getstatus/{username}/{num_page}', response_model=schemas.Tweet)
-async def getstatus(username: str, num_page: int, api=Depends(getAPI)):
+def getstatus(username: str, num_page: int, api=Depends(getAPI)):
     tweet_list = []
 
     for page in range(num_page):
         try:
             user_timeline = api.user_timeline(
                 username, page=page, tweet_mode="extended")
-            tweet_list += await functions.makeList(user_timeline)
+            tweet_list += functions.makeList(user_timeline)
         except tweepy.TweepError as e:
             raise HTTPException(status_code=e.response.status_code)
 
