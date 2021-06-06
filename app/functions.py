@@ -8,13 +8,13 @@ def makeList(user_timeline):
     tweet_list = []
     tweet_dict  = {}
     for tweet in user_timeline:
-        text = tweet._json['full_text'].lower() #Lowercase
+        text = tweet.full_text.lower() #Lowercase
         if filterTweet(text):
-            clean_text = cleanTweet(tweet._json['full_text'])
+            clean_text = cleanTweet(tweet.full_text)
             print(f'[+] {clean_text}')
             tweet_dict['text'] = clean_text
-            tweet_dict['created_at'] = tweet._json['created_at']
-            tweet_dict['id'] = tweet._json['id_str']
+            tweet_dict['created_at'] = tweet.created_at
+            tweet_dict['id'] = tweet.id_str
             tweet_dict['prediction'] = predict(clean_text).astype(float)
             tweet_dict_copy = tweet_dict.copy()
             tweet_list.append(tweet_dict_copy)
@@ -33,7 +33,7 @@ def cleanTweet(tweet):
 
 def filterTweet(tweet):
     for keyword in config.KEYWORDS:
-        if keyword in tweet:
+        if (keyword in tweet) and ('RT @' not in tweet):
             return True
 
 def predict(tweet):
