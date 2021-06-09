@@ -1,10 +1,5 @@
 package com.example.saveyourself
 
-import android.app.DownloadManager
-import android.telecom.Call
-import java.io.IOException
-import javax.security.auth.callback.Callback
-
 class MainActivity : androidx.appcompat.app.AppCompatActivity() {
 
     private val client = okhttp3.OkHttpClient()
@@ -16,14 +11,7 @@ class MainActivity : androidx.appcompat.app.AppCompatActivity() {
         run("http://34.87.19.67:8888/getstatus/(username)/(numpage)")
     }
 
-    private fun run(url: String) {
-        val request = android.app.DownloadManager.Request.Builder()
-            .url(url)
-            .build()
+    private fun run(block: String) {
 
-        client.newCall(request).enqueue(object : Callback {
-            fun onFailure(call: Call, e: IOException) {}
-            fun onResponse(call: Call, response: okhttp3.Response) = println(response.body()?.string())
-        })
     }
 }
